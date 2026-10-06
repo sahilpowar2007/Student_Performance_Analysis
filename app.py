@@ -22,54 +22,253 @@ if "logged_in" not in st.session_state:
 
 if "user" not in st.session_state:
     st.session_state.user = None
-
-
 def show_auth_page():
 
+    # ---------------- Premium Login Page CSS ----------------
     st.markdown(
         """
-        <div style="
-            max-width: 850px;
-            margin: 50px auto 20px auto;
-            padding: 35px;
-            text-align: center;
-            border-radius: 18px;
-            background: linear-gradient(90deg, #1e3a5f, #2c7be5);
-        ">
-            <h1 style="color:white;">
-                🎓 Student Performance Analysis System
-            </h1>
+        <style>
 
-            <p style="color:#e8f1ff; font-size:17px;">
-                Analyse student performance, generate predictions
-                and identify academic attention indicators.
-            </p>
-        </div>
+        /* Main page background */
+        .stApp {
+            background:
+                radial-gradient(circle at 10% 10%, rgba(59,130,246,0.12), transparent 28%),
+                radial-gradient(circle at 90% 20%, rgba(99,102,241,0.12), transparent 28%),
+                linear-gradient(135deg, #f8fbff 0%, #eef4ff 45%, #f8faff 100%);
+        }
+
+        /* Remove excessive top space */
+        .block-container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            max-width: 1100px;
+        }
+
+        /* Hero section */
+        .login-hero {
+            max-width: 900px;
+            margin: 15px auto 28px auto;
+            padding: 42px 35px;
+            text-align: center;
+            border-radius: 24px;
+            background:
+                linear-gradient(135deg, #0f2a5f 0%, #174ea6 52%, #2563eb 100%);
+            box-shadow:
+                0 18px 45px rgba(30, 64, 175, 0.22),
+                inset 0 1px 0 rgba(255,255,255,0.18);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-hero::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -110px;
+            right: -70px;
+        }
+
+        .login-hero::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            bottom: -100px;
+            left: -50px;
+        }
+
+        .hero-icon {
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            color: white;
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            color: #e8f1ff;
+            font-size: 17px;
+            line-height: 1.6;
+            max-width: 720px;
+            margin: 14px auto 0 auto;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 7px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Login area */
+        .login-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        /* Form labels */
+        label {
+            font-weight: 600 !important;
+        }
+
+        /* Input boxes */
+        div[data-baseweb="input"] {
+            border-radius: 12px !important;
+        }
+
+        div[data-baseweb="input"] input {
+            font-size: 15px !important;
+        }
+
+        div[data-baseweb="input"]:focus-within {
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.15) !important;
+        }
+
+        /* Buttons */
+        .stFormSubmitButton > button {
+            width: 100%;
+            min-height: 48px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            background: linear-gradient(90deg, #174ea6, #2563eb);
+            color: white;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 18px rgba(37,99,235,0.20);
+        }
+
+        .stFormSubmitButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(37,99,235,0.28);
+        }
+
+        /* Tabs */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .stTabs [data-baseweb="tab"] {
+            padding: 10px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            background: #e9f0ff;
+        }
+
+        .stTabs [aria-selected="true"] {
+            background: #2563eb !important;
+            color: white !important;
+        }
+
+        /* Welcome headings */
+        h3 {
+            color: #173b73;
+            font-weight: 750;
+        }
+
+        /* Success / error messages */
+        div[data-testid="stAlert"] {
+            border-radius: 12px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+
+            .block-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-top: 1rem;
+            }
+
+            .login-hero {
+                padding: 30px 18px;
+                border-radius: 20px;
+                margin-top: 5px;
+            }
+
+            .hero-title {
+                font-size: 29px;
+            }
+
+            .hero-subtitle {
+                font-size: 14px;
+            }
+
+            .hero-icon {
+                font-size: 34px;
+            }
+
+            .stTabs [data-baseweb="tab"] {
+                padding: 9px 14px;
+            }
+        }
+
+        </style>
         """,
         unsafe_allow_html=True
     )
-
-    left, center, right = st.columns([1, 2, 1])
-
-    with center:
+   # ---------------- Hero Header ----------------
+st.html(
+        """
+        <div class="login-hero">
+            <div class="hero-icon">🎓</div>
+            <div class="hero-title">
+                Student Performance Analysis System
+            </div>
+            <div class="hero-subtitle">
+                Analyse student performance, generate predictions
+                and identify academic attention indicators.
+            </div>
+            <div class="hero-tag">
+                📊 Data Analytics &nbsp; • &nbsp; 🤖 AI Prediction &nbsp; • &nbsp; 🎯 Student Insights
+            </div>
+        </div>
+        """
+        )
+    # ---------------- Login Area ----------------
+left, center, right = st.columns([1, 2, 1])
+with center:
 
         login_tab, signup_tab = st.tabs(
             ["🔐 Sign In", "📝 Sign Up"]
         )
 
         # ---------------- Sign In ----------------
-
         with login_tab:
 
             st.subheader("Welcome Back")
+            st.caption("Sign in to access your student performance dashboard.")
 
             with st.form("login_form"):
 
-                email = st.text_input("Email")
+                email = st.text_input(
+                    "Email",
+                    placeholder="Enter your email"
+                )
 
                 password = st.text_input(
                     "Password",
-                    type="password"
+                    type="password",
+                    placeholder="Enter your password"
                 )
 
                 login_button = st.form_submit_button(
@@ -104,29 +303,35 @@ def show_auth_page():
                         st.error("Invalid email or password.")
 
         # ---------------- Sign Up ----------------
-
         with signup_tab:
 
             st.subheader("Create Account")
+            st.caption("Create your account to start analysing student performance.")
 
             with st.form("signup_form"):
 
-                full_name = st.text_input("Full Name")
+                full_name = st.text_input(
+                    "Full Name",
+                    placeholder="Enter your full name"
+                )
 
                 email = st.text_input(
                     "Email",
-                    key="signup_email"
+                    key="signup_email",
+                    placeholder="Enter your email"
                 )
 
                 password = st.text_input(
                     "Password",
                     type="password",
-                    key="signup_password"
+                    key="signup_password",
+                    placeholder="Create a password"
                 )
 
                 confirm_password = st.text_input(
                     "Confirm Password",
-                    type="password"
+                    type="password",
+                    placeholder="Re-enter your password"
                 )
 
                 signup_button = st.form_submit_button(
@@ -165,15 +370,10 @@ def show_auth_page():
 
                         st.error(message)
 
-
 # Show Login / Sign Up page before dashboard
-
 if not st.session_state.logged_in:
-
     show_auth_page()
-
     st.stop()
-
 ORDER = ["Low", "Average", "High"]
 LEVEL_COLORS = {"Low": "#e74c3c", "Average": "#f39c12", "High": "#27ae60"}
 INDICATOR_TEXT = {
